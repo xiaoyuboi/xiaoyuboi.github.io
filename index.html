@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="小宇Boi｜科技 & AI 工具内容创作者｜效率网站与 Notion 数字大脑" />
+  <title>小宇Boi · 个人主页</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --line: rgba(255,255,255,.12);
+      --accent: #7c5cff;   /* 紫 */
+      --accent2:#26d6ff;   /* 青 */
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC","Hiragino Sans GB","Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(124,92,255,.30), transparent 60%),
+        radial-gradient(800px 520px at 85% 20%, rgba(38,214,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 40% 100%, rgba(124,92,255,.14), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+    }
+    a{ color: inherit; text-decoration: none; }
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 80px;
+    }
+    header{
+      display:flex;
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .avatar{
+      width: 72px; height:72px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 50%),
+        linear-gradient(135deg, rgba(124,92,255,.9), rgba(38,214,255,.7));
+      display:grid;
+      place-items:center;
+      font-weight: 800;
+      letter-spacing: .5px;
+      user-select:none;
+    }
+    .title h1{
+      margin: 0 0 6px;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+    .title p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .btns{
+      margin-left:auto;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content:flex-end;
+    }
+    .btn{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-size: 14px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+      white-space: nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.18);
+    }
+    .btn.primary{
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #07101a;
+      font-weight: 700;
+    }
+
+    main{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+    }
+    @media (max-width: 860px){
+      main{ grid-template-columns: 1fr; }
+      .btns{ margin-left: 0; justify-content:flex-start; }
+    }
+    .card{
+      padding: 16px 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      backdrop-filter: blur(10px);
+    }
+    .card h2{
+      margin: 2px 0 10px;
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+    .card p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+    .tags{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .tag{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+    }
+    .list{
+      display:grid;
+      gap: 10px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .item{
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    .item .k{
+      font-size: 13px;
+      color: rgba(255,255,255,.88);
+      font-weight: 650;
+      margin-bottom: 4px;
+    }
+    .item .v{
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    footer{
+      margin-top: 18px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      text-align:center;
+      padding: 12px 0 0;
+    }
+    .hint{
+      font-size: 12px;
+      color: rgba(255,255,255,.62);
+      margin-top: 8px;
+    }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="avatar">小宇</div>
+      <div class="title">
+        <h1>小宇Boi · 科技 & AI 工具内容创作者</h1>
+        <p>聚焦 AI 工具 / 效率网站 / Notion 数字大脑｜工作室创始人｜持续做“能立刻上手”的教程与实战案例。</p>
+      </div>
+
+      <div class="btns">
+        <!-- 把下面链接改成你的真实链接（强烈建议） -->
+        <a class="btn primary" href="https://space.bilibili.com/" target="_blank" rel="noopener">B站主页</a>
+        <a class="btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="#" onclick="alert('把这个链接换成你的 Notion 主页/作品集链接即可');return false;">Notion作品集</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>我在做什么</h2>
+        <p>
+          我是一名全职自媒体创作者，内容专注科技与 AI 工具评测、效率网站分享，以及用 Notion 搭建个人/团队的生产系统。
+          目标是把“复杂的工具”讲成“普通人也能立刻用起来的流程”。
+        </p>
+
+        <div class="tags" aria-label="标签">
+          <span class="tag">AI 工具</span>
+          <span class="tag">效率网站</span>
+          <span class="tag">Notion</span>
+          <span class="tag">数字大脑</span>
+          <span class="tag">GitHub 玩法</span>
+          <span class="tag">内容生产 SOP</span>
+        </div>
+
+        <p class="hint">
+          提示：你可以把本页当成“个人简介落地页”。如果你后面要做更完整的作品集，建议改用静态站点模板（Hugo/Astro）或直接用 Notion 导出/同步。
+        </p>
+      </section>
+
+      <aside class="card">
+        <h2>内容方向 / 系列</h2>
+        <ul class="list">
+          <li class="item">
+            <div class="k">GitHub 系列</div>
+            <div class="v">从入门到进阶：高级搜索、Pages 个人主页、Profile README、AI 读仓库等。</div>
+          </li>
+          <li class="item">
+            <div class="k">AI 工具体验</div>
+            <div class="v">关注“能提升产出”的工具与 Agent 流程，强调实操与落地。</div>
+          </li>
+          <li class="item">
+            <div class="k">Notion 生产系统</div>
+            <div class="v">用数据库、模版与 SOP，把选题-文案-剪辑-发布-复盘串起来。</div>
+          </li>
+        </ul>
+
+        <div class="hint">
+          你现在的 GitHub Pages 已经能跑起来了。下一步建议：把按钮链接换成你的真实地址。
+        </div>
+      </aside>
+
+      <section class="card" style="grid-column: 1 / -1;">
+        <h2>合作 / 联系</h2>
+        <p>
+          如需品牌合作、工具测评、课程/直播、或工作室相关沟通，可通过邮箱联系：
+          <span class="mono">gxiaoyuing@gmail.com</span>
+        </p>
+        <p class="hint">
+          （如果你不想公开邮箱：把上面这一行删掉，或改成表单链接/商务微信二维码。）
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="y"></span> Xiaoyu · Built with GitHub Pages</div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
