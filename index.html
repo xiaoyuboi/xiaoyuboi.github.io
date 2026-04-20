@@ -1,270 +1,324 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="小宇Boi｜科技 & AI 工具内容创作者｜效率网站与 Notion 数字大脑" />
-  <title>小宇Boi · 个人主页</title>
-  <style>
-    :root{
-      --bg: #0b1220;
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.10);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --line: rgba(255,255,255,.12);
-      --accent: #7c5cff;   /* 紫 */
-      --accent2:#26d6ff;   /* 青 */
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius: 18px;
-    }
-    *{ box-sizing: border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC","Hiragino Sans GB","Microsoft YaHei", Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(900px 500px at 15% 10%, rgba(124,92,255,.30), transparent 60%),
-        radial-gradient(800px 520px at 85% 20%, rgba(38,214,255,.18), transparent 55%),
-        radial-gradient(900px 600px at 40% 100%, rgba(124,92,255,.14), transparent 60%),
-        var(--bg);
-      min-height:100vh;
-    }
-    a{ color: inherit; text-decoration: none; }
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 18px 80px;
-    }
-    header{
-      display:flex;
-      gap: 18px;
-      align-items: center;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-    }
-    .avatar{
-      width: 72px; height:72px;
-      border-radius: 18px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 50%),
-        linear-gradient(135deg, rgba(124,92,255,.9), rgba(38,214,255,.7));
-      display:grid;
-      place-items:center;
-      font-weight: 800;
-      letter-spacing: .5px;
-      user-select:none;
-    }
-    .title h1{
-      margin: 0 0 6px;
-      font-size: 22px;
-      line-height: 1.2;
-    }
-    .title p{
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>小宇Boi — Creator & Builder</title>
+<meta name="description" content="小宇Boi · 全职自媒体创作者 / AI 工具与效率系统分享" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f5f5f5;
+    --muted: #888;
+    --accent: #c4f542;
+    --line: rgba(255,255,255,0.08);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', -apple-system, 'Noto Serif SC', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+  /* 噪点纹理 */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.03; pointer-events: none; z-index: 1;
+  }
+  /* 流动光晕 */
+  .orb {
+    position: fixed;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,245,66,0.15) 0%, transparent 70%);
+    filter: blur(80px);
+    top: -200px; right: -200px;
+    z-index: 0;
+    animation: float 20s ease-in-out infinite;
+  }
+  .orb.two {
+    background: radial-gradient(circle, rgba(100,150,255,0.12) 0%, transparent 70%);
+    top: auto; right: auto;
+    bottom: -300px; left: -200px;
+    animation-delay: -10s;
+    animation-duration: 25s;
+  }
+  @keyframes float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(50px,50px) scale(1.1); }
+  }
 
-    .btns{
-      margin-left:auto;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content:flex-end;
-    }
-    .btn{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-      font-size: 14px;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      display:inline-flex;
-      gap: 8px;
-      align-items:center;
-      white-space: nowrap;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.18);
-    }
-    .btn.primary{
-      border: none;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #07101a;
-      font-weight: 700;
-    }
+  /* 顶部导航 */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 24px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,10,0.5);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.05em; }
+  nav .status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
 
-    main{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 14px;
-    }
-    @media (max-width: 860px){
-      main{ grid-template-columns: 1fr; }
-      .btns{ margin-left: 0; justify-content:flex-start; }
-    }
-    .card{
-      padding: 16px 16px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 10px 40px rgba(0,0,0,.25);
-      backdrop-filter: blur(10px);
-    }
-    .card h2{
-      margin: 2px 0 10px;
-      font-size: 16px;
-      letter-spacing: .2px;
-    }
-    .card p{
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 14px;
-    }
-    .tags{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .tag{
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.78);
-      font-size: 12px;
-    }
-    .list{
-      display:grid;
-      gap: 10px;
-      margin: 10px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-    .item{
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.04);
-    }
-    .item .k{
-      font-size: 13px;
-      color: rgba(255,255,255,.88);
-      font-weight: 650;
-      margin-bottom: 4px;
-    }
-    .item .v{
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    footer{
-      margin-top: 18px;
-      color: rgba(255,255,255,.55);
-      font-size: 12px;
-      text-align:center;
-      padding: 12px 0 0;
-    }
-    .hint{
-      font-size: 12px;
-      color: rgba(255,255,255,.62);
-      margin-top: 8px;
-    }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-  </style>
+  /* 主体 */
+  main {
+    position: relative; z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 180px 48px 120px;
+  }
+
+  /* Hero */
+  .hero .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(135deg, var(--accent) 0%, #fff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: italic;
+  }
+  .hero .tagline {
+    font-size: 20px; color: var(--muted);
+    max-width: 560px; line-height: 1.7;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 区块 */
+  section { margin-top: 160px; opacity: 0; transform: translateY(30px); transition: all 0.8s; }
+  section.visible { opacity: 1; transform: translateY(0); }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::before {
+    content: ''; width: 32px; height: 1px; background: var(--accent);
+  }
+  h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    margin-bottom: 48px;
+    letter-spacing: -0.01em;
+  }
+
+  /* 内容卡片 */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; }
+  .card {
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.4s;
+    cursor: default;
+  }
+  .card:hover {
+    border-color: rgba(196,245,66,0.3);
+    background: rgba(196,245,66,0.03);
+    transform: translateY(-4px);
+  }
+  .card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 18px; font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+  /* Contact */
+  .contact-card {
+    padding: 56px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(196,245,66,0.04), transparent);
+    text-align: center;
+  }
+  .contact-card .email {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(20px, 3vw, 32px);
+    color: var(--fg);
+    cursor: pointer;
+    display: inline-block;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--accent);
+    transition: all 0.3s;
+    margin: 24px 0;
+  }
+  .contact-card .email:hover { color: var(--accent); transform: translateY(-2px); }
+  .copied { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity 0.3s; font-family: 'JetBrains Mono', monospace; }
+  .copied.show { opacity: 1; }
+
+  /* Socials */
+  .socials { display: flex; gap: 24px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+  .socials a {
+    color: var(--muted); text-decoration: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px;
+    transition: all 0.3s;
+  }
+  .socials a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Footer */
+  footer {
+    margin-top: 160px; padding-top: 48px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 24px; }
+    main { padding: 140px 24px 80px; }
+    .contact-card { padding: 32px 24px; }
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="avatar">小宇</div>
-      <div class="title">
-        <h1>小宇Boi · 科技 & AI 工具内容创作者</h1>
-        <p>聚焦 AI 工具 / 效率网站 / Notion 数字大脑｜工作室创始人｜持续做“能立刻上手”的教程与实战案例。</p>
+
+<div class="orb"></div>
+<div class="orb two"></div>
+
+<nav>
+  <div class="logo">XIAOYU / BOI</div>
+  <div class="status"><span class="dot"></span><span id="time">--:--:--</span> CST</div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="label">// CREATOR · BUILDER · 2026</div>
+    <h1>把复杂工具<br/>讲成<span class="accent">人话</span>。</h1>
+    <p class="tagline">全职自媒体创作者 · 科技 / AI 工具 / 效率系统。<br/>目标是让普通人也能立刻用起来你今天才听说的东西。</p>
+  </section>
+
+  <!-- WHAT -->
+  <section>
+    <div class="section-label">01 — WHAT I DO</div>
+    <h2>我在做的事</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="num">/ 01</div>
+        <h3>科技 & AI 工具评测</h3>
+        <p>第一时间体验、拆解全球最新的 AI 工具，找出真正能落地的那一个。</p>
       </div>
-
-      <div class="btns">
-        <!-- 把下面链接改成你的真实链接（强烈建议） -->
-        <a class="btn primary" href="https://space.bilibili.com/" target="_blank" rel="noopener">B站主页</a>
-        <a class="btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn" href="#" onclick="alert('把这个链接换成你的 Notion 主页/作品集链接即可');return false;">Notion作品集</a>
+      <div class="card">
+        <div class="num">/ 02</div>
+        <h3>效率网站 & 黑科技分享</h3>
+        <p>挖掘那些"早知道就好了"的免费资源和隐藏玩法。</p>
       </div>
-    </header>
+      <div class="card">
+        <div class="num">/ 03</div>
+        <h3>Notion 个人系统</h3>
+        <p>用 Notion 搭建个人和团队的生产系统、知识库与第二大脑。</p>
+      </div>
+    </div>
+  </section>
 
-    <main>
-      <section class="card">
-        <h2>我在做什么</h2>
-        <p>
-          我是一名全职自媒体创作者，内容专注科技与 AI 工具评测、效率网站分享，以及用 Notion 搭建个人/团队的生产系统。
-          目标是把“复杂的工具”讲成“普通人也能立刻用起来的流程”。
-        </p>
+  <!-- CONTACT -->
+  <section>
+    <div class="section-label">02 — GET IN TOUCH</div>
+    <h2>想聊聊？</h2>
+    <div class="contact-card">
+      <p style="color:var(--muted); font-size:15px;">品牌合作 · 工具测评 · 课程直播 · 工作室相关</p>
+      <div class="email" id="email" onclick="copyEmail()">gxiaoyuing@gmail.com</div>
+      <div class="copied" id="copied">// COPIED TO CLIPBOARD</div>
+      <div class="socials">
+        <a href="#" target="_blank">Bilibili ↗</a>
+        <a href="#" target="_blank">微博 ↗</a>
+        <a href="#" target="_blank">即刻 ↗</a>
+        <a href="https://github.com/xiaoyuboi" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
 
-        <div class="tags" aria-label="标签">
-          <span class="tag">AI 工具</span>
-          <span class="tag">效率网站</span>
-          <span class="tag">Notion</span>
-          <span class="tag">数字大脑</span>
-          <span class="tag">GitHub 玩法</span>
-          <span class="tag">内容生产 SOP</span>
-        </div>
+  <footer>
+    <div>© 2026 XIAOYU / BOI</div>
+    <div>BUILT WITH ♥ ON GITHUB PAGES</div>
+  </footer>
+</main>
 
-        <p class="hint">
-          提示：你可以把本页当成“个人简介落地页”。如果你后面要做更完整的作品集，建议改用静态站点模板（Hugo/Astro）或直接用 Notion 导出/同步。
-        </p>
-      </section>
+<script>
+  // 实时时钟
+  function updateTime() {
+    const d = new Date();
+    document.getElementById('time').textContent =
+      [d.getHours(), d.getMinutes(), d.getSeconds()]
+        .map(n => String(n).padStart(2,'0')).join(':');
+  }
+  setInterval(updateTime, 1000); updateTime();
 
-      <aside class="card">
-        <h2>内容方向 / 系列</h2>
-        <ul class="list">
-          <li class="item">
-            <div class="k">GitHub 系列</div>
-            <div class="v">从入门到进阶：高级搜索、Pages 个人主页、Profile README、AI 读仓库等。</div>
-          </li>
-          <li class="item">
-            <div class="k">AI 工具体验</div>
-            <div class="v">关注“能提升产出”的工具与 Agent 流程，强调实操与落地。</div>
-          </li>
-          <li class="item">
-            <div class="k">Notion 生产系统</div>
-            <div class="v">用数据库、模版与 SOP，把选题-文案-剪辑-发布-复盘串起来。</div>
-          </li>
-        </ul>
+  // 邮箱复制
+  function copyEmail() {
+    navigator.clipboard.writeText('gxiaoyuing@gmail.com');
+    const c = document.getElementById('copied');
+    c.classList.add('show');
+    setTimeout(() => c.classList.remove('show'), 2000);
+  }
 
-        <div class="hint">
-          你现在的 GitHub Pages 已经能跑起来了。下一步建议：把按钮链接换成你的真实地址。
-        </div>
-      </aside>
+  // 滚动渐显
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('section:not(.hero)').forEach(s => obs.observe(s));
 
-      <section class="card" style="grid-column: 1 / -1;">
-        <h2>合作 / 联系</h2>
-        <p>
-          如需品牌合作、工具测评、课程/直播、或工作室相关沟通，可通过邮箱联系：
-          <span class="mono">gxiaoyuing@gmail.com</span>
-        </p>
-        <p class="hint">
-          （如果你不想公开邮箱：把上面这一行删掉，或改成表单链接/商务微信二维码。）
-        </p>
-      </section>
-    </main>
+  // 鼠标视差（光晕跟随）
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    document.querySelectorAll('.orb').forEach(o => {
+      o.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  });
+</script>
 
-    <footer>
-      <div>© <span id="y"></span> Xiaoyu · Built with GitHub Pages</div>
-    </footer>
-  </div>
-
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
