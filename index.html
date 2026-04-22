@@ -1,324 +1,709 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>小宇Boi — Creator & Builder</title>
-<meta name="description" content="小宇Boi · 全职自媒体创作者 / AI 工具与效率系统分享" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --bg: #0a0a0a;
-    --fg: #f5f5f5;
-    --muted: #888;
-    --accent: #c4f542;
-    --line: rgba(255,255,255,0.08);
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Inter', -apple-system, 'Noto Serif SC', sans-serif;
-    font-weight: 300;
-    line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
-    position: relative;
-  }
-  /* 噪点纹理 */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-    opacity: 0.03; pointer-events: none; z-index: 1;
-  }
-  /* 流动光晕 */
-  .orb {
-    position: fixed;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(196,245,66,0.15) 0%, transparent 70%);
-    filter: blur(80px);
-    top: -200px; right: -200px;
-    z-index: 0;
-    animation: float 20s ease-in-out infinite;
-  }
-  .orb.two {
-    background: radial-gradient(circle, rgba(100,150,255,0.12) 0%, transparent 70%);
-    top: auto; right: auto;
-    bottom: -300px; left: -200px;
-    animation-delay: -10s;
-    animation-duration: 25s;
-  }
-  @keyframes float {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(50px,50px) scale(1.1); }
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小宇Boi · 科技 UP 主</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
 
-  /* 顶部导航 */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    padding: 24px 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 10;
-    backdrop-filter: blur(12px);
-    background: rgba(10,10,10,0.5);
-    border-bottom: 1px solid var(--line);
-  }
-  nav .logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.05em; }
-  nav .status {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--muted);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 12px var(--accent);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+        :root {
+            --bg: #fbfbfd;
+            --bg-section: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-caption: #86868b;
+            --accent: #0071e3;
+            --accent-hover: #0077ed;
+            --border: rgba(0,0,0,0.04);
+            --card-bg: #ffffff;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.04), 0 0.5px 1px rgba(0,0,0,0.03);
+            --card-shadow-hover: 0 8px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+        }
 
-  /* 主体 */
-  main {
-    position: relative; z-index: 2;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 180px 48px 120px;
-  }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* Hero */
-  .hero .label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px; color: var(--accent);
-    letter-spacing: 0.15em;
-    margin-bottom: 32px;
-    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
-  }
-  .hero h1 {
-    font-family: 'Noto Serif SC', serif;
-    font-size: clamp(48px, 8vw, 96px);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 32px;
-    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
-  }
-  .hero h1 .accent {
-    background: linear-gradient(135deg, var(--accent) 0%, #fff 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-style: italic;
-  }
-  .hero .tagline {
-    font-size: 20px; color: var(--muted);
-    max-width: 560px; line-height: 1.7;
-    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-  /* 区块 */
-  section { margin-top: 160px; opacity: 0; transform: translateY(30px); transition: all 0.8s; }
-  section.visible { opacity: 1; transform: translateY(0); }
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--muted);
-    letter-spacing: 0.2em;
-    margin-bottom: 24px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .section-label::before {
-    content: ''; width: 32px; height: 1px; background: var(--accent);
-  }
-  h2 {
-    font-family: 'Noto Serif SC', serif;
-    font-size: clamp(32px, 4vw, 48px);
-    font-weight: 400;
-    margin-bottom: 48px;
-    letter-spacing: -0.01em;
-  }
+        body {
+            font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
 
-  /* 内容卡片 */
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; }
-  .card {
-    padding: 32px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: rgba(255,255,255,0.02);
-    transition: all 0.4s;
-    cursor: default;
-  }
-  .card:hover {
-    border-color: rgba(196,245,66,0.3);
-    background: rgba(196,245,66,0.03);
-    transform: translateY(-4px);
-  }
-  .card .num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--accent);
-    margin-bottom: 16px;
-  }
-  .card h3 {
-    font-size: 18px; font-weight: 500;
-    margin-bottom: 12px;
-  }
-  .card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+        /* ── Nav ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(251,251,253,0.72);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 0.5px solid rgba(0,0,0,0.08);
+        }
 
-  /* Contact */
-  .contact-card {
-    padding: 56px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: linear-gradient(135deg, rgba(196,245,66,0.04), transparent);
-    text-align: center;
-  }
-  .contact-card .email {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(20px, 3vw, 32px);
-    color: var(--fg);
-    cursor: pointer;
-    display: inline-block;
-    padding: 8px 16px;
-    border-bottom: 1px solid var(--accent);
-    transition: all 0.3s;
-    margin: 24px 0;
-  }
-  .contact-card .email:hover { color: var(--accent); transform: translateY(-2px); }
-  .copied { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity 0.3s; font-family: 'JetBrains Mono', monospace; }
-  .copied.show { opacity: 1; }
+        .nav-inner {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 22px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-  /* Socials */
-  .socials { display: flex; gap: 24px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
-  .socials a {
-    color: var(--muted); text-decoration: none;
-    font-family: 'JetBrains Mono', monospace; font-size: 13px;
-    padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px;
-    transition: all 0.3s;
-  }
-  .socials a:hover { color: var(--accent); border-color: var(--accent); }
+        .nav-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
 
-  /* Footer */
-  footer {
-    margin-top: 160px; padding-top: 48px;
-    border-top: 1px solid var(--line);
-    display: flex; justify-content: space-between;
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);
-    flex-wrap: wrap; gap: 16px;
-  }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
 
-  @media (max-width: 640px) {
-    nav { padding: 16px 24px; }
-    main { padding: 140px 24px 80px; }
-    .contact-card { padding: 32px 24px; }
-  }
-</style>
+        .nav-links a {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        /* ── Container ── */
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 22px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 130px 0 80px;
+            text-align: center;
+        }
+
+        /* Avatar */
+        .avatar-wrapper {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            position: relative;
+            background: var(--bg-section);
+        }
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 如果没有图片，显示占位 */
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            background: linear-gradient(135deg, #e8e8ed, #f5f5f7);
+            color: var(--text-caption);
+        }
+
+        .hero-overline {
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -3px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #1d1d1f, #6e6e73);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .hero-desc {
+            font-size: 21px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto 32px;
+            line-height: 1.5;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-caption);
+            margin-top: 4px;
+        }
+
+        /* ── Section ── */
+        .section-full {
+            background: var(--bg-section);
+            padding: 80px 0;
+        }
+
+        .section-white {
+            background: var(--bg);
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-overline {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.08;
+        }
+
+        .section-header p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ── Content Cards (Bento) ── */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .bento-item {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 36px 32px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.35s cubic-bezier(.25,.1,.25,1), box-shadow 0.35s cubic-bezier(.25,.1,.25,1);
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .bento-item:hover {
+            transform: scale(1.015);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .bento-item.featured {
+            grid-column: 1 / -1;
+            background: var(--text-primary);
+            color: #fff;
+        }
+
+        .bento-item.featured .bento-text h3 { color: #fff; }
+        .bento-item.featured .bento-text p { color: rgba(255,255,255,0.7); }
+        .bento-item.featured .bento-tag {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .bento-icon { font-size: 36px; flex-shrink: 0; }
+
+        .bento-text h3 {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 6px;
+        }
+
+        .bento-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .bento-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: var(--bg-section);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .bento-text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── Timeline ── */
+        .timeline {
+            max-width: 640px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 1.5px;
+            background: rgba(0,0,0,0.08);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 24px;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid rgba(0,0,0,0.12);
+            flex-shrink: 0;
+            margin-top: 3px;
+            z-index: 1;
+            transition: border-color 0.2s;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            border-color: var(--accent);
+        }
+
+        .timeline-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .timeline-content .timeline-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--bg-section);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-caption);
+            margin-bottom: 6px;
+        }
+
+        /* ── Workflow ── */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .workflow-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 36px 28px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.35s cubic-bezier(.25,.1,.25,1), box-shadow 0.35s cubic-bezier(.25,.1,.25,1);
+        }
+
+        .workflow-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .workflow-card .wf-num {
+            font-size: 40px;
+            font-weight: 700;
+            color: rgba(0,0,0,0.06);
+            letter-spacing: -2px;
+            margin-bottom: 12px;
+        }
+
+        .workflow-card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 14px;
+        }
+
+        .workflow-card ul { list-style: none; }
+
+        .workflow-card li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 6px 0;
+            border-bottom: 0.5px solid var(--border);
+            line-height: 1.5;
+        }
+
+        .workflow-card li:last-child { border-bottom: none; }
+
+        /* ── CTA Banner ── */
+        .cta-banner {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .cta-banner h2 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .cta-banner p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 28px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 980px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover { background: var(--accent-hover); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--accent);
+            border-radius: 980px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover { background: rgba(0,113,227,0.06); }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 40px 22px;
+            font-size: 12px;
+            color: var(--text-caption);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* ── Responsive ── */
+        @media (max-width: 734px) {
+            .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+            .hero-stats { gap: 24px; }
+            .stat-number { font-size: 28px; }
+            .section-header h2, .cta-banner h2 { font-size: 32px; letter-spacing: -1px; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .workflow-grid { grid-template-columns: 1fr; }
+            .avatar-wrapper { width: 110px; height: 110px; }
+            .nav-links { gap: 16px; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="orb"></div>
-<div class="orb two"></div>
-
+<!-- Nav -->
 <nav>
-  <div class="logo">XIAOYU / BOI</div>
-  <div class="status"><span class="dot"></span><span id="time">--:--:--</span> CST</div>
+    <div class="nav-inner">
+        <span class="nav-name">小宇Boi</span>
+        <ul class="nav-links">
+            <li><a href="#content">内容</a></li>
+            <li><a href="#journey">历程</a></li>
+            <li><a href="#workflow">创作</a></li>
+            <li><a href="#contact">联系</a></li>
+        </ul>
+    </div>
 </nav>
 
-<main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="label">// CREATOR · BUILDER · 2026</div>
-    <h1>把复杂工具<br/>讲成<span class="accent">人话</span>。</h1>
-    <p class="tagline">全职自媒体创作者 · 科技 / AI 工具 / 效率系统。<br/>目标是让普通人也能立刻用起来你今天才听说的东西。</p>
-  </section>
+<!-- Hero -->
+<section class="hero">
 
-  <!-- WHAT -->
-  <section>
-    <div class="section-label">01 — WHAT I DO</div>
-    <h2>我在做的事</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="num">/ 01</div>
-        <h3>科技 & AI 工具评测</h3>
-        <p>第一时间体验、拆解全球最新的 AI 工具，找出真正能落地的那一个。</p>
-      </div>
-      <div class="card">
-        <div class="num">/ 02</div>
-        <h3>效率网站 & 黑科技分享</h3>
-        <p>挖掘那些"早知道就好了"的免费资源和隐藏玩法。</p>
-      </div>
-      <div class="card">
-        <div class="num">/ 03</div>
-        <h3>Notion 个人系统</h3>
-        <p>用 Notion 搭建个人和团队的生产系统、知识库与第二大脑。</p>
-      </div>
+    <!-- ★ 头像区域 ★ 把 src 替换为你的头像图片链接即可 -->
+    <div class="avatar-wrapper">
+        <img src="https://s3-us-west-2.amazonaws.com/public.notion-static.com/64e763af-214c-4c3d-bec5-912e34c24087/91D3EF34-0BA5-4144-B120-D1CED5F74CA7.jpeg" alt="小宇Boi 头像">
+        <!-- 如果图片加载失败，可替换为下面的占位符：
+        <div class="avatar-placeholder">🧑‍💻</div>
+        -->
     </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section>
-    <div class="section-label">02 — GET IN TOUCH</div>
-    <h2>想聊聊？</h2>
-    <div class="contact-card">
-      <p style="color:var(--muted); font-size:15px;">品牌合作 · 工具测评 · 课程直播 · 工作室相关</p>
-      <div class="email" id="email" onclick="copyEmail()">gxiaoyuing@gmail.com</div>
-      <div class="copied" id="copied">// COPIED TO CLIPBOARD</div>
-      <div class="socials">
-        <a href="#" target="_blank">Bilibili ↗</a>
-        <a href="#" target="_blank">微博 ↗</a>
-        <a href="#" target="_blank">即刻 ↗</a>
-        <a href="https://github.com/xiaoyuboi" target="_blank">GitHub ↗</a>
-      </div>
+    <p class="hero-overline">B站科技区 · 百万粉 UP 主</p>
+    <h1>小宇Boi.</h1>
+    <p class="hero-desc">专注 AI 工具、GitHub 开源、效率黑科技。<br>让复杂技术变得人人可用。</p>
+
+    <div class="hero-stats">
+        <div class="stat-item">
+            <div class="stat-number">100万+</div>
+            <div class="stat-label">B站粉丝</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">AI / GitHub</div>
+            <div class="stat-label">核心赛道</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">工作室</div>
+            <div class="stat-label">内容团队</div>
+        </div>
     </div>
-  </section>
+</section>
 
-  <footer>
-    <div>© 2026 XIAOYU / BOI</div>
-    <div>BUILT WITH ♥ ON GITHUB PAGES</div>
-  </footer>
-</main>
+<!-- Content Tracks -->
+<section class="section-full" id="content">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-overline">Content</div>
+            <h2>四大内容赛道。</h2>
+            <p>每一期视频，只讲你用得上的</p>
+        </div>
+        <div class="bento-grid">
+            <div class="bento-item featured">
+                <div class="bento-icon">🤖</div>
+                <div class="bento-text">
+                    <h3>AI 工具探索</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">AI 网站合集</span>
+                        <span class="bento-tag">实操教程</span>
+                        <span class="bento-tag">前沿体验</span>
+                    </div>
+                    <p>挖掘全网最值得用的 AI 工具，第一时间测评、拆解、出教程。让普通人也能用 AI 提升 10 倍效率。</p>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-icon">🐙</div>
+                <div class="bento-text">
+                    <h3>GitHub / 开源</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">隐藏玩法</span>
+                        <span class="bento-tag">免费资源</span>
+                        <span class="bento-tag">项目推荐</span>
+                    </div>
+                    <p>代表作：「GitHub 最强免费资源网站」系列</p>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-icon">⚡</div>
+                <div class="bento-text">
+                    <h3>效率与黑科技</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">效率网站</span>
+                        <span class="bento-tag">生产力工具</span>
+                        <span class="bento-tag">自动化</span>
+                    </div>
+                    <p>那些你不知道但知道后离不开的网站和工具</p>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-icon">🧪</div>
+                <div class="bento-text">
+                    <h3>前沿技术</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">Hermes Agent</span>
+                        <span class="bento-tag">开源 AI</span>
+                        <span class="bento-tag">新范式</span>
+                    </div>
+                    <p>代表作：「Hermes — 自我进化的 AI」系列</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<script>
-  // 实时时钟
-  function updateTime() {
-    const d = new Date();
-    document.getElementById('time').textContent =
-      [d.getHours(), d.getMinutes(), d.getSeconds()]
-        .map(n => String(n).padStart(2,'0')).join(':');
-  }
-  setInterval(updateTime, 1000); updateTime();
+<!-- Journey -->
+<section class="section-white" id="journey">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-overline">Journey</div>
+            <h2>创作历程。</h2>
+            <p>从第一条视频到百万粉丝</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">起步</span>
+                    <h4>开始科技内容创作</h4>
+                    <p>第一条 AI / 效率工具视频上线 B 站，确定"让技术人人可用"的内容理念。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">爆发</span>
+                    <h4>GitHub 系列全网破圈</h4>
+                    <p>「GitHub 最强免费资源网站」系列连续爆款，奠定科技区头部位置。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">里程碑</span>
+                    <h4>B站粉丝突破百万</h4>
+                    <p>成为 B 站科技区百万粉 UP 主，开始商业化与品牌合作。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">体系化</span>
+                    <h4>创立内容工作室</h4>
+                    <p>搭建文案 SOP、选题决策体系与团队协作流程，探索自媒体工业化生产。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">现在</span>
+                    <h4>持续进化中</h4>
+                    <p>深耕 AI 赛道，重建工作室团队，打造个人品牌 IP 与粉丝社群生态。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-  // 邮箱复制
-  function copyEmail() {
-    navigator.clipboard.writeText('gxiaoyuing@gmail.com');
-    const c = document.getElementById('copied');
-    c.classList.add('show');
-    setTimeout(() => c.classList.remove('show'), 2000);
-  }
+<!-- Workflow -->
+<section class="section-full" id="workflow">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-overline">Workflow</div>
+            <h2>创作方法论。</h2>
+            <p>每一条视频背后的系统</p>
+        </div>
+        <div class="workflow-grid">
+            <div class="workflow-card">
+                <div class="wf-num">01</div>
+                <h3>选题决策</h3>
+                <ul>
+                    <li>给谁看？痛点是什么？</li>
+                    <li>标题承诺 → 点击理由 → 钩子</li>
+                    <li>数据复盘驱动迭代</li>
+                </ul>
+            </div>
+            <div class="workflow-card">
+                <div class="wf-num">02</div>
+                <h3>文案生产</h3>
+                <ul>
+                    <li>标准化文案 SOP</li>
+                    <li>多版本迭代 + 合规审查</li>
+                    <li>年度文案库归档管理</li>
+                </ul>
+            </div>
+            <div class="workflow-card">
+                <div class="wf-num">03</div>
+                <h3>运营增长</h3>
+                <ul>
+                    <li>B 站评论 + 暗号互动</li>
+                    <li>公众号引流 → 私域转化</li>
+                    <li>粉丝社群沉淀与运营</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
-  // 滚动渐显
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('section:not(.hero)').forEach(s => obs.observe(s));
+<!-- Contact CTA -->
+<section class="section-white" id="contact">
+    <div class="container">
+        <div class="cta-banner">
+            <h2>一起做点有意思的事。</h2>
+            <p>商务合作、品牌推广、内容共创，<br>欢迎随时联系。</p>
+            <div class="cta-buttons">
+                <a class="btn-primary" href="mailto:gxiaoyuing@gmail.com">发送邮件 ›</a>
+                <a class="btn-secondary" href="https://space.bilibili.com/" target="_blank">B站主页 ›</a>
+            </div>
+        </div>
+    </div>
+</section>
 
-  // 鼠标视差（光晕跟随）
-  document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.clientY / window.innerHeight - 0.5) * 30;
-    document.querySelectorAll('.orb').forEach(o => {
-      o.style.transform = `translate(${x}px, ${y}px)`;
-    });
-  });
-</script>
+<!-- Footer -->
+<footer>
+    <p>Copyright © 2026 小宇Boi. All rights reserved.</p>
+    <p style="margin-top: 6px;"><a href="mailto:gxiaoyuing@gmail.com">gxiaoyuing@gmail.com</a></p>
+</footer>
 
 </body>
 </html>
